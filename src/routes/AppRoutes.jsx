@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "@/pages/Home";
 import AllServices from "@/pages/AllServices";
-import AddService from "@/pages/Addservice";
+import AddService from "@/pages/AddService";
 import BookedServices from "@/pages/BookedServices";
 import ManagedServices from "@/pages/ManagedServices";
 import ServiceDetails from "@/pages/ServiceDetails";
