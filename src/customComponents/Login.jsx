@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
@@ -27,6 +27,10 @@ export function SignInForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    document.title = "Login - ServiceSuite";
+  }, []);
 
   const form = useForm({
     defaultValues: {
@@ -72,6 +76,42 @@ export function SignInForm() {
       setIsLoading(false);
     }
   }
+
+  //Handle Google login
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      let result;
+     
+        // Use popup for desktop
+        result = await signInWithPopup(auth, provider);
+      
+
+      const user = result?.user || auth?.currentUser;
+
+      // Extract user information
+      const userData = {
+        firebaseUid: user.uid,
+        username: user.displayName,
+        email: user.email,
+        profileImage: user.photoURL,
+      };
+
+      // Make an API call to check if the user exists and save if not
+      const response = await registerUserWithGoogle(userData);
+
+      if (response.status === 201) {
+        toast.success("Google Login successful! Account created.");
+      } else if (response.status === 200) {
+        toast.success("Google Login successful!");
+      }
+
+      // Redirect to homepage
+      navigate("/");
+    } catch (error) {
+      toast.error(error.message || "An error occurred during Google login.");
+    }
+  };
 
   return (
     <div className="relative min-h-screen bg-white">
@@ -132,7 +172,7 @@ export function SignInForm() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel className="text-neutral-950">Email</FormLabel>
                       <FormControl>
                         <Input placeholder="example@site.com" {...field} />
                       </FormControl>
@@ -146,7 +186,9 @@ export function SignInForm() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Choose Password</FormLabel>
+                      <FormLabel className="text-neutral-950">
+                        Choose Password
+                      </FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Input
@@ -176,7 +218,7 @@ export function SignInForm() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-purple-600 hover:bg-purple-700"
+                  className="w-full bg-purple-600 hover:bg-purple-700 dark:text-white"
                 >
                   {isLoading ? (
                     <div className="flex items-center justify-center gap-2">
@@ -189,6 +231,12 @@ export function SignInForm() {
                 </Button>
               </form>
             </Form>
+            <button
+              onClick={handleGoogleLogin}
+              className="bg-red-500 hover:bg-red-400 text-white p-2 w-full mb-4 border rounded-lg"
+            >
+              Login with Google
+            </button>
 
             <div className="flex items-center justify-center gap-2">
               <Button

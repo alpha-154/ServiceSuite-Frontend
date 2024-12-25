@@ -5,6 +5,7 @@ import { Switch } from "@/components/ui/switch";
 import FeaturedServices from "@/customComponents/FeaturedServices";
 import TestimonialSection from "@/customComponents/TestimonialSection";
 import Hero from "@/customComponents/Hero";
+import LawyerSection from "@/customComponents/LaywerSection";
 
 
 const Home = () => {
@@ -36,24 +37,24 @@ const Home = () => {
 
   return (
     <div className="min-h-screen w-full">
-      <div className="flex items-center justify-start space-x-2 mt-4 md:mb-10 ">
+      <div className="flex items-center justify-start p-4 mt-4 md:mb-10">
         <div className="flex items-center justify-start gap-2 border border-gray-200 dark:border-gray-600 p-2 rounded-lg">
-        <Switch
-          id="theme-switch"
-          checked={isDarkMode}
-          onCheckedChange={setIsDarkMode}
-        />
-        <Label htmlFor="theme-switch">
-          {isDarkMode ? "Dark Mode" : "Light Mode"}
-        </Label>
+          <Switch
+            id="theme-switch"
+            checked={isDarkMode}
+            onCheckedChange={setIsDarkMode}
+          />
+          <Label htmlFor="theme-switch">
+            {isDarkMode ? "Dark Mode" : "Light Mode"}
+          </Label>
         </div>
-       
       </div>
-       <Hero />
-     
-      <FeaturedServices/>
+      <Hero />
+
+      <FeaturedServices />
+      <LawyerSection/>
       
-     
+
       <TestimonialSection />
     </div>
   );

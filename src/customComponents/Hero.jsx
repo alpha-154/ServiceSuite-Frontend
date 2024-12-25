@@ -36,7 +36,7 @@ const Hero = () => {
           <div className="w-full md:w-1/2 space-y-8">
             <h1
               //className="text-2xl md:text-3xl lg:text-4xl font-bold text-neutral-950 dark:text-gray-200 tracking-wide"
-              className="text-2xl md:text-4xl md:leading-[60px] font-bold tracking-tighter bg-gradient-to-b from-black to-[#001E80] text-transparent bg-clip-text"
+              className="text-2xl md:text-4xl md:leading-[60px] font-bold tracking-tighter bg-gradient-to-b from-black to-[#001E80] dark:from-white dark:to-[#4583df] text-transparent bg-clip-text"
               data-aos="fade-up"
               data-aos-delay="200"
             >
@@ -44,23 +44,23 @@ const Hero = () => {
             </h1>
 
             <p
-              className="text-[20px] leading-[27px] tracking-tight text-[#010D3E]"
+              className="text-[20px] leading-[27px] tracking-tight text-[#010D3E] dark:text-[#6195cf]"
               data-aos="fade-up"
               data-aos-delay="400"
             >
               Connect with expert lawyers and book tailored legal services effortlessly. Service Suite bridges the gap between professionals and clients for all your legal needs
             </p>
             <div data-aos="fade-up" data-aos-delay="600" className="flex items-center gap-4">
-              <a href="#featured-movies" className="mt-4">
+              <a href="#featured-services" className="mt-4">
                 <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
                    Explore Services
                 </button>
               </a>
-              <Link to="/trending-movies">
-              <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
-                  Meet Lawyers
+              <a href="#featured-lawyers" className="mt-4">
+                <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
+                   Explore Lawyers
                 </button>
-              </Link>
+              </a>
             </div>
 
           </div>

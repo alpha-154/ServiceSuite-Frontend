@@ -101,7 +101,7 @@ const ServiceDetails = () => {
           </div>
         </div>
 
-        <p className="text-center text-lg  leading-[27px] tracking-tight text-[#010D3E] mt-5">
+        <p className="text-center text-lg dark:text-[#6195cf] leading-[27px] tracking-tight text-[#010D3E] mt-5">
           Below are the service details. To book this service, simply click the
           'Book Now' button.
         </p>

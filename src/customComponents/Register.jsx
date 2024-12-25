@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -38,6 +38,11 @@ export function SignUpForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+   
+  useEffect(() => {
+    document.title = "Register - ServiceSuite";
+  }, []);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -146,7 +151,7 @@ export function SignUpForm() {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Username</FormLabel>
+                      <FormLabel className="text-neutral-950">Username</FormLabel>
                       <FormControl>
                         <Input placeholder="John Doe" {...field} />
                       </FormControl>
@@ -159,7 +164,7 @@ export function SignUpForm() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel className="text-neutral-950">Email</FormLabel>
                       <FormControl>
                         <Input placeholder="example@site.com" {...field} />
                       </FormControl>
@@ -172,7 +177,7 @@ export function SignUpForm() {
                   name="profileImage"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Image Url</FormLabel>
+                      <FormLabel className="text-neutral-950">Image Url</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="https://image.jpeg.unsplash"
@@ -188,7 +193,7 @@ export function SignUpForm() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Choose Password</FormLabel>
+                      <FormLabel className="text-neutral-950">Choose Password</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Input
@@ -218,11 +223,11 @@ export function SignUpForm() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-purple-600 hover:bg-purple-700"
+                  className="w-full bg-purple-600 hover:bg-purple-700 dark:text-white"
                 >
                   {isLoading ? (
                     <div className="flex items-center justify-center gap-2">
-                      <Loader2 className="h-6 w-6 text-purple-700" />{" "}
+                      <Loader2 className="h-6 w-6 text-purple-700 dark:text-white" />{" "}
                       <span>Registering...</span>
                     </div>
                   ) : (

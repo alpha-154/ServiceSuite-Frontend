@@ -19,6 +19,7 @@ export function FeaturedServiceCard({
   providerImage,
   providerName,
   servicePrice,
+  serviceArea,
   serviceStatus,
   serviceTakingDate,
   specialInstructions,
@@ -47,6 +48,7 @@ export function FeaturedServiceCard({
             </div>
             <span className="text-sm font-medium">{providerName}</span>
           </div>
+          <p className="text-sm text-gray-600 mb-4 line-clamp-3">{serviceArea}</p>
           <div>
             {serviceStatus && (
               <p>
@@ -93,7 +95,7 @@ export function FeaturedServiceCard({
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between items-center p-4 bg-gray-50">
+      <CardFooter className="flex justify-between items-center p-4 bg-gray-50 dark:bg-neutral-950">
         <span className="text-lg font-bold">{servicePrice}</span>
         { !serviceStatus && (
             <Button onClick={() => navigate(`/service-details/${serviceObjectId}`)}>

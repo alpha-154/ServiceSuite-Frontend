@@ -76,7 +76,7 @@ const TodoServices = () => {
           </div>
         </div>
 
-        <p className="text-center text-lg  leading-[27px] tracking-tight text-[#010D3E] mt-5">
+        <p className="text-center text-lg  leading-[27px] tracking-tight text-[#010D3E] dark:text-[#6195cf] mt-5">
           Manage and update your added services effortlessly to keep them
           accurate, attractive, and up-to-date.
         </p>
@@ -107,6 +107,7 @@ const TodoServices = () => {
                     providerImage={service.serviceProviderImageUrl}
                     providerName={service.serviceProviderName}
                     servicePrice={service.price}
+                    serviceArea={service.servieArea}
                     serviceStatus={service.serviceStatus}
                     serviceTakingDate={service.serviceTakingDate}
                     specialInstructions={service.specialInstructions}

@@ -1,9 +1,10 @@
-import React from "react";
-import { useState } from "react";
+import React, {useState, useEffect} from "react";
+
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { fetchSixServices } from "@/api";
 import { FeaturedServiceCard } from "./FeaturedServicesCard";
+import { SkeletonSection } from "./Skeleton";
 
 const featuredServices = [
   {
@@ -87,53 +88,75 @@ const featuredServices = [
 
 const FeaturedServices = () => {
   const navigate = useNavigate();
-  const [services, setServices] = useState(featuredServices);
-  const [loading, setLoading] = useState(false);
+  const [services, setServices] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetchSixServices();
+        if (response.status === 200) {
+          setServices(response.data.services);
+        }
+      } catch (error) {
+        console.error("Failed to fetch services", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchServices();
+  }, []);
 
   return (
     <section
-      id="featured-movies"
+      id="featured-services"
       className="py-16 bg-gray-50 dark:bg-background p-4 border dark:border-gray-800 rounded-xl mb-5 md:mb-10"
     >
       <div className="container mx-auto px-4">
-      <div className="section-heading mb-10">
+        <div className="section-heading mb-10">
           <div className="flex justify-center">
-            <div className="tag">Featured</div>
+            <div className="tag dark:border-gray-600">Featured</div>
           </div>
-          <h2 className="section-title mt-5">Featured Services</h2>
-          <p className="section-description mt-5">
-          Explore top-rated legal services handpicked for your needs.
+          <h2 className="section-title mt-5 dark:from-white dark:to-[#4583df]">
+            Featured Services
+          </h2>
+          <p className="section-description mt-5 dark:text-[#6195cf]">
+            Explore top-rated legal services handpicked for your needs.
           </p>
         </div>
-        {loading ? (
-          <div className="flex items-center justify-center">
-            <div className="flex items-center space-x-2">
-              <Loader2 className="text-purple-600 dark:text-white animate-spin" />
-              <p className="text-purple-600 dark:text-white">Loading...</p>
-            </div>
-          </div>
-        ) : (
-          <>
-            {services.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {services.map((service) => (
-                  <FeaturedServiceCard
-                    key={service.ServiceName}
-                    serviceObjectId= {service.serviceObjectID}
-                    serviceImage={service.ServiceImage}
-                    serviceName={service.ServiceName}
-                    serviceDescription={service.ServiceDescription}
-                    providerImage={service.ServiceProviderImage}
-                    providerName={service.ServiceProviderName}
-                    servicePrice={service.ServicePrice}
-                  />
-                ))}
-              </div>
-            ) : (
-              <h1>No services added yet!</h1>
-            )}
-          </>
-        )}
+        <div className="w-full mt-5 mx-auto">
+          {isLoading ? (
+            <SkeletonSection />
+          ) : (
+            <>
+              {services?.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {services?.map((service) => (
+                    <FeaturedServiceCard
+                      key={service._id}
+                      serviceObjectId={service._id}
+                      serviceImage={service.serviceImageUrl}
+                      serviceName={service.serviceName}
+                      serviceDescription={service.serviceDescription}
+                      providerImage={service.serviceProviderImageUrl}
+                      providerName={service.serviceProviderName}
+                      servicePrice={service.price}
+                      serviceArea={service.serviceArea}
+                      serviceStatus={null}
+                      serviceTakingDate={null}
+                      specialInstructions={null}
+                      isTodo={false}
+                      onSelectService={null}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center text-lg">No services found!</div>
+              )}
+            </>
+          )}
+        </div>
         <div className="flex justify-center items-center mt-10">
           <Button
             onClick={() => navigate("/all-services")}

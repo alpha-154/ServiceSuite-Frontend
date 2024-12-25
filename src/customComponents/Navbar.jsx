@@ -1,5 +1,5 @@
 "use client";
-
+import logo from "/logo.png";
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ChevronDown, ChevronUp, Menu } from "lucide-react";
@@ -74,16 +74,17 @@ export default function Navbar() {
 
   return (
     
-    <nav className="w-full bg-background p-4">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8 border border-gray-200 bg-navBg rounded-2xl">
-        <div className="flex items-center">
-          <Link to="/" className="text-xl font-bold">
-            logo
-          </Link>
+    <nav className="sticky top-0 z-50 w-full bg-background p-4">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8 border border-gray-200 bg-navBg dark:bg-background dark:border-gray-600 rounded-2xl">
+        <div onClick={() => navigate("/")} className="flex items-center max-w-[50px] max-h-[20px] cursor-pointer">
+          
+          <img src={logo} alt="logo" className="w-50 h-15 border rounded-full mr-1"/>ServiceSuite
+          
+          
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden items-center gap-6 md:flex ">
+        <div className="hidden items-center gap-5 md:flex ">
           <Link
             to="/"
             className="text-sm font-medium transition-colors hover:text-primary"
@@ -123,7 +124,7 @@ export default function Navbar() {
                     )}
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48 bg-navBg">
+                <DropdownMenuContent align="end" className="w-48 bg-navBg dark:bg-background dark:border-gray-600">
                   {dashboardItems.map((item) => (
                     <DropdownMenuItem key={item.href} asChild className="cursor-pointer">
                       <Link to={item.href} >{item.label}</Link>
@@ -157,7 +158,7 @@ export default function Navbar() {
                         src={user?.photoURL}
                         alt={user?.displayName}
                       />
-                      <AvatarFallback> {user?.displayName ? user.displayName[0] : "A"}</AvatarFallback>
+                      <AvatarFallback className="border border-gray-500 runded-full text-sm p-1"> {user?.displayName ? user.displayName[0] : "A"}</AvatarFallback>
                     </Avatar>
                     <span className="text-sm font-medium">
                       {user?.displayName}
@@ -169,7 +170,7 @@ export default function Navbar() {
                     )}
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-48 bg-navBg">
+                <DropdownMenuContent align="start" className="w-48 bg-navBg  dark:bg-background dark:border-gray-600">
                   {userMenuItems.map((item) => (
                     <DropdownMenuItem key={item.href} asChild>
                       <div className="flex flex-col items-start gap-2">
@@ -203,7 +204,7 @@ export default function Navbar() {
           </SheetTrigger>
           <SheetContent
             side="right"
-            className="w-[280px] bg-navBg"
+            className="w-[280px] bg-navBg  dark:bg-background dark:border-gray-600"
             aria-label="Navigation menu"
             aria-description="Mobile navigation menu containing links to different sections of the website"
           >

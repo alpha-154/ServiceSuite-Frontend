@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -5,7 +6,7 @@ const SearchServiceCard = ({ service }) => {
   const navigate = useNavigate();
   return (
     <div
-      onClick={() => navigate(`/service-details/${service._id}`)}
+     
       className="max-w-sm flex flex-col gap-2 border border-gray-300 rounded-md p-2 cursor-pointer"
     >
       <div className="max-w-[100px] max-h-[100px] border rounded-full mx-auto">
@@ -21,6 +22,7 @@ const SearchServiceCard = ({ service }) => {
         <span className="text-xs">Service Title</span>
         <h1 className="text-sm font-semibold -mt-1">{service.price}</h1>
       </div>
+      <Button onClick={() => navigate(`/service-details/${service._id}`)} className="text-xs">View Details</Button>
     </div>
   );
 };

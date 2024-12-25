@@ -43,13 +43,12 @@ const BookedServices = () => {
       <div className="section-heading mx-auto">
         <div className="flex justify-center">
           <div className="text-lg md:text-xl inline-flex border border-[#222]/10 px-3 py-1 rounded-lg">
-            Manage Services
+            Booked Services
           </div>
         </div>
 
-        <p className="text-center text-lg  leading-[27px] tracking-tight text-[#010D3E] mt-5">
-          Manage and update your added services effortlessly to keep them
-          accurate, attractive, and up-to-date.
+        <p className="text-center text-lg  leading-[27px] dark:text-[#6195cf] tracking-tight text-[#010D3E] mt-5">
+          Manage you booked services effortlessly 
         </p>
       </div>
       <div>
@@ -78,6 +77,7 @@ const BookedServices = () => {
                     providerImage={service.serviceProviderImageUrl}
                     providerName={service.serviceProviderName}
                     servicePrice={service.price}
+                    serviceArea={service.servieArea}
                     serviceStatus={service.serviceStatus}
                     serviceTakingDate={service.serviceTakingDate}
                     specialInstructions={service.specialInstructions}

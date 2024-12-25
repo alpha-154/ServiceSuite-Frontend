@@ -47,9 +47,13 @@ const searchServices = ({query}) => {
     query: query
 });
 }
+
+const fetchSixServices = () => {
+  return apiClient.get(`/api/service/get-six-services`);
+};
   
-const fetchAllServices = () => {
-  return apiClient.get("/api/service/get-all-services");
+const fetchAllServices = ({page, limit}) => {
+  return apiClient.get(`/api/service/get-all-services?page=${page}&limit=${limit}`);
 };
 
 const fetchServiceById = (serviceId) => {
@@ -99,6 +103,7 @@ export {
   registerUserWithGoogle,
   fetchUserProfile,
   searchServices,
+  fetchSixServices,
   fetchAllServices,
   fetchServiceById,
   addService,

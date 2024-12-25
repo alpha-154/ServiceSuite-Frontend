@@ -122,7 +122,7 @@ const ManagedServices = () => {
           </div>
         </div>
 
-        <p className="text-center text-lg  leading-[27px] tracking-tight text-[#010D3E] mt-5">
+        <p className="text-center text-lg  leading-[27px] dark:text-[#6195cf] tracking-tight text-[#010D3E] mt-5">
           Manage and update your added services effortlessly to keep them
           accurate, attractive, and up-to-date.
         </p>
@@ -142,7 +142,7 @@ const ManagedServices = () => {
         ) : (
           <>
             {managedServices?.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-auto">
                 {managedServices?.map((service) => (
                   <ManagedServiceCard
                     key={service._id}

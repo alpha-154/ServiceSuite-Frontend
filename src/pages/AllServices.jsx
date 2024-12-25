@@ -7,73 +7,71 @@ import { searchServices, fetchAllServices } from "@/api";
 import { SkeletonSection } from "@/customComponents/Skeleton";
 import { FeaturedServiceCard } from "@/customComponents/FeaturedServicesCard";
 import SearchServiceCard from "@/customComponents/SearchServiceCard";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const AllServices = () => {
-  //search states
   const [query, setQuery] = useState("");
   const [searchFindServices, setSearchFindServices] = useState([]);
-  const [fetchSearcedServicesLoading, setFetchSearcedServicesLoading] =
-    useState(false);
+  const [fetchSearcedServicesLoading, setFetchSearcedServicesLoading] = useState(false);
   const [searchClicked, setSearchClicked] = useState(false);
-  // service states
   const [services, setServices] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // dynamic title on the browser's title bar
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 6;
+
   useEffect(() => {
     document.title = "All Services - ServiceSuite";
   }, []);
 
-  // >>>>>>>>>>>>>>>> Searching Movies on the Search bar >>>>>>>>>>>>>> //
-
-  // Debounced search function
   const fetchQueryServices = debounce(async (query) => {
     if (query.trim() === "") {
       setSearchFindServices([]);
       setFetchSearcedServicesLoading(false);
       return;
     }
-    const data = {
-      query,
-    };
+    const data = { query };
     try {
-      setFetchSearcedServicesLoading(true); // Start loading when search begins
+      setFetchSearcedServicesLoading(true);
       const response = await searchServices(data);
-
-      console.log("searched user data", response.data.searchedServices);
       setSearchFindServices(response.data.searchedServices);
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
-      setFetchSearcedServicesLoading(false); // End loading when search completes
+      setFetchSearcedServicesLoading(false);
     }
   }, 300);
 
-  // Effect to handle input change
   useEffect(() => {
     fetchQueryServices(query);
   }, [query]);
 
-  // Cancel debounce on component unmount to avoid potential memory leaks
   useEffect(() => {
     return () => fetchQueryServices.cancel();
   }, []);
 
-  // Handle search button click
   const handleSearch = () => {
     setSearchClicked(true);
     fetchQueryServices(query);
   };
 
-  // >>>>>>>>>>>>>>>> Fetch All Services from Server >>>>>>>>>>>>>> //
   useEffect(() => {
     const fetchServices = async () => {
       try {
         setIsLoading(true);
-        const response = await fetchAllServices();
+        const response = await fetchAllServices({ page: currentPage, limit: itemsPerPage });
         if (response.status === 200) {
-          console.log("Services fetched successfully", response.data.services);
           setServices(response.data.services);
+          setTotalPages(response.data.totalPages);
         }
       } catch (error) {
         console.error("Failed to fetch services", error);
@@ -82,23 +80,27 @@ const AllServices = () => {
       }
     };
     fetchServices();
-  }, []);
+  }, [currentPage]);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   return (
-    <div className="min-h-screen w-full flex flex-col  gap-2 py-2 mb-20">
-      {/* Section Heading */}
+    <div className="min-h-screen relative w-full flex flex-col gap-2 py-2 mb-20">
       <div className="section-heading mx-auto">
         <div className="flex justify-center">
           <div className="text-lg md:text-xl inline-flex border border-[#222]/10 px-3 py-1 rounded-lg">
             All Services
           </div>
         </div>
-
-        <p className="text-center text-lg  leading-[27px] tracking-tight text-[#010D3E] mt-5">
+        <p className="text-center text-lg leading-[27px] tracking-tight dark:text-[#6195cf] text-[#010D3E] mt-5">
           Explore top-rated legal services handpicked for your needs
         </p>
       </div>
-      {/* Search Section */}
+
       <div className="flex gap-2 max-w-2xl mx-auto mt-5">
         <Input
           value={query}
@@ -106,8 +108,8 @@ const AllServices = () => {
           placeholder="Search for legal documents..."
           onChange={(e) => {
             setQuery(e.target.value);
-            setFetchSearcedServicesLoading(true); // Show "searching the user..." message while typing
-            setSearchClicked(false); // Reset search click
+            setFetchSearcedServicesLoading(true);
+            setSearchClicked(false);
           }}
         />
         <Button variant="default" className="text-sm" onClick={handleSearch}>
@@ -115,32 +117,28 @@ const AllServices = () => {
           Search
         </Button>
       </div>
-      {/* Search results section */}
+
       <div className="max-h-[300px] flex flex-col items-center gap-2 p-4 overflow-y-auto">
-        {/* Show loading message */}
         {fetchSearcedServicesLoading && !searchClicked ? (
-          <p className="text-sm ">Searching the service...</p>
+          <p className="text-sm">Searching the service...</p>
         ) : (
           <>
-            {/* Show search results or "No users found" based on results */}
             {searchFindServices?.length > 0 ? (
               <>
-                <h1 className="text-sm ">Available Services:</h1>
-                {searchFindServices?.map((service, index) => (
+                <h1 className="text-sm">Available Services:</h1>
+                {searchFindServices?.map((service) => (
                   <SearchServiceCard key={service._id} service={service} />
                 ))}
               </>
             ) : (
-              query?.length !== 0 &&
-              searchFindServices?.length === 0 && (
-                <p className="text-sm ">No services found!</p>
+              query?.length !== 0 && searchFindServices?.length === 0 && (
+                <p className="text-sm">No services found!</p>
               )
             )}
           </>
         )}
       </div>
 
-      {/* Services Card Section */}
       <div className="w-full mt-5 mx-auto">
         {isLoading ? (
           <SkeletonSection />
@@ -158,6 +156,7 @@ const AllServices = () => {
                     providerImage={service.serviceProviderImageUrl}
                     providerName={service.serviceProviderName}
                     servicePrice={service.price}
+                    serviceArea={service.serviceArea}
                     serviceStatus={null}
                     serviceTakingDate={null}
                     specialInstructions={null}
@@ -171,6 +170,35 @@ const AllServices = () => {
             )}
           </>
         )}
+      </div>
+
+      <div className="relative -bottom-10">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              />
+            </PaginationItem>
+            {[...Array(totalPages)].map((_, index) => (
+              <PaginationItem key={index}>
+                <PaginationLink
+                  onClick={() => handlePageChange(index + 1)}
+                  isActive={currentPage === index + 1}
+                >
+                  {index + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect} from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import axios from "axios";
 import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
 import { addService } from "@/api";
@@ -21,7 +20,9 @@ import { auth } from "@/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 const addFormSchema = z.object({
   serviceName: z.string(),
-  serviceDescription: z.string(),
+  serviceDescription: z.string().max(100, {
+    message: "Service description must be less than 100 characters.",
+  }),
   serviceArea: z.string(),
   price: z.string(),
   serviceImage: z.string(),
@@ -99,7 +100,7 @@ const AddService = () => {
           </div>
         </div>
 
-        <p className="text-center text-lg  leading-[27px] tracking-tight text-[#010D3E] mt-5">
+        <p className="text-center text-lg  leading-[27px] tracking-tight text-[#010D3E] dark:text-[#6195cf] mt-5">
           Provide details about your service and make your services accessible
           to clients by adding a new service
         </p>
@@ -108,7 +109,7 @@ const AddService = () => {
       <div className="w-full flex justify-center gap-5 mt-5">
         {/* Form */}
 
-        <div className="min-w-[350px] border border-gray-200 rounded-xl p-6 md:p-8 shadow-[0_0_20px_rgba(0,0,0,0.15)]">
+        <div className="min-w-[350px] md:min-w-[450px] border border-gray-200 rounded-xl p-6 md:p-8 shadow-[0_0_20px_rgba(0,0,0,0.15)]">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
@@ -193,8 +194,7 @@ const AddService = () => {
           </Form>
         </div>
 
-        {/* Image */}
-        <div></div>
+  
       </div>
     </div>
   );

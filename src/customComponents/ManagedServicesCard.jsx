@@ -43,7 +43,7 @@ export function ManagedServiceCard({
           <span className="text-md font-bold">{servicePrice}</span>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between items-center p-4 bg-gray-50">
+      <CardFooter className="flex justify-between items-center p-4 bg-gray-50 dark:bg-neutral-950">
         {/* edit button */}
         <div>
           <ManageServiceEditModal

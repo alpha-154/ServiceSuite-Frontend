@@ -1,10 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import {  Mail, Phone } from 'lucide-react'
+import { SlSocialLinkedin } from "react-icons/sl";
+import { TiSocialFacebook } from "react-icons/ti";
+
 
 export default function Footer() {
   return (
-    <footer className="bg-navBg text-muted-foreground py-8">
+    <footer className="bg-navBg dark:bg-background dark:text-primary text-muted-foreground py-8">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -27,13 +30,17 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li className="flex items-center">
                 <Mail className="w-4 h-4 mr-2" />
-                <a href="mailto:info@legalease.com" className="hover:underline">info@legalease.com</a>
+                <a href="mailto:info@servicesuite.com" className="hover:underline">info@servicesuite.com</a>
               </li>
               <li className="flex items-center">
                 <Phone className="w-4 h-4 mr-2" />
                 <a href="tel:+11234567890" className="hover:underline">+1 (123) 456-7890</a>
               </li>
             </ul>
+            <div className='flex justify-start items-center gap-2'>
+            <SlSocialLinkedin className='w-5 h-5 text-neutral-950 dark:text-white' />
+            <TiSocialFacebook className='w-7 h-7 text-neutral-950 dark:text-white' />
+            </div>
            
           </div>
         </div>
