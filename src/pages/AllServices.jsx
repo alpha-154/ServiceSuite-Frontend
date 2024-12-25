@@ -126,7 +126,7 @@ const AllServices = () => {
             {searchFindServices?.length > 0 ? (
               <>
                 <h1 className="text-sm ">Available Services:</h1>
-                {searchFindService?.map((service, index) => (
+                {searchFindServices?.map((service, index) => (
                   <SearchServiceCard key={service._id} service={service} />
                 ))}
               </>
