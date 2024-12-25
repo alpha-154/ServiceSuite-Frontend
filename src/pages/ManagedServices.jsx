@@ -45,12 +45,12 @@ const ManagedServices = () => {
       };
       const response = await updateAddedService(updatedServiceData);
       if (response.status === 201) {
-        toast.success(response.data.message);
+        toast.success(response?.data.message);
 
         // Update the managedServices state to remove the deleted service
         setManagedServices((prevServices) =>
           prevServices.map((service) =>
-            service._id === response.data.service._id ? response.data.service : service
+            service._id === response?.data.service._id ? response.data.service : service
           )
         );
         
