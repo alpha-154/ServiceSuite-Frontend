@@ -133,7 +133,8 @@ const AddService = () => {
                 name="serviceDescription"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Service Description</FormLabel>
+                    <FormLabel>Service Description </FormLabel>
+                    <span className="text-xs">(less than 100 words)</span>
                     <FormControl>
                       <Textarea
                         type="text"
