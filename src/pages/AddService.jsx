@@ -31,9 +31,6 @@ const AddService = () => {
   const navigate = useNavigate();
   const [user] = useAuthState(auth);
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  const fileInputRef = useRef(null);
 
   // dynamic title on the browser's title bar
   useEffect(() => {
@@ -51,41 +48,15 @@ const AddService = () => {
     },
   });
 
-  // Handle file upload
-  const handleFileChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file && file.size > 2 * 1024 * 1024) {
-      toast.error("File size must be under 2MB.");
-    } else {
-      setImage(file || null);
-      console.log("image", image);
-      setImagePreview(URL.createObjectURL(file)); // Image preview
-    }
-  };
-
   const onSubmit = async (data) => {
     console.log("data", data);
     try {
       setLoading(true);
-      let imageUrl = "";
 
-      if (image) {
-        console.log("image-> onSubmit()", image);
-        const formData = new FormData();
-        formData.append("file", image);
-        formData.append("upload_preset", "user_profile_image");
-
-        const cloudinaryResponse = await axios.post(
-          `https://api.cloudinary.com/v1_1/dyy7hjubd/image/upload`,
-          formData
-        );
-
-        imageUrl = cloudinaryResponse.data.secure_url;
-      }
       //console.log("provider name", user?.displayName, "provider image", user?.photoURL);
       const addServiceData = {
         uid: user?.uid,
-        serviceImageUrl: imageUrl,
+        serviceImageUrl: data.serviceImage,
         serviceName: data.serviceName,
         serviceDescription: data.serviceDescription,
         serviceArea: data.serviceArea,
@@ -101,27 +72,14 @@ const AddService = () => {
       if (response.status === 201) {
         toast.success("Service created successfully!");
         form.reset();
-        setImage(null);
-        setImagePreview(null);
-        setLoading(false);
 
-        // Reset the file input
-        if (fileInputRef?.current) {
-          fileInputRef.current.value = "";
-        }
+        setLoading(false);
 
         navigate("/all-services");
       }
     } catch (err) {
       setLoading(false);
       form.reset();
-      setImage(null);
-      setImagePreview(null);
-
-      // Reset the file input
-      if (fileInputRef?.current) {
-        fileInputRef.current.value = "";
-      }
 
       if (err.response && err.response.data) {
         toast.error(err.response.data.message);
@@ -150,7 +108,7 @@ const AddService = () => {
       <div className="w-full flex justify-center gap-5 mt-5">
         {/* Form */}
 
-        <div className="border border-gray-200 rounded-xl p-6 md:p-8 shadow-[0_0_20px_rgba(0,0,0,0.15)]">
+        <div className="min-w-[350px] border border-gray-200 rounded-xl p-6 md:p-8 shadow-[0_0_20px_rgba(0,0,0,0.15)]">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
@@ -185,18 +143,14 @@ const AddService = () => {
                   </FormItem>
                 )}
               />
-               <FormField
+              <FormField
                 control={form.control}
                 name="serviceArea"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Service Area</FormLabel>
                     <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Dhaka"
-                        {...field}
-                      />
+                      <Input type="text" placeholder="Dhaka" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -217,31 +171,15 @@ const AddService = () => {
               <FormField
                 control={form.control}
                 name="serviceImage"
-                render={() => (
+                render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Service Image</FormLabel>
+                    <FormLabel>Service Image Url</FormLabel>
                     <FormControl>
-                      <Input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        ref={fileInputRef} 
-                      />
+                      <Input type="text" placeholder="https://unsplash.com" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
               />
-              {imagePreview && (
-                <div className="flex justify-center mb-2">
-                    <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="w-32 h-32 object-cover mt-2 border rounded-md"
-                />
-                </div>
-                
-              )}
-
               <div className="flex justify-center">
                 {loading ? (
                   <Button disabled>
