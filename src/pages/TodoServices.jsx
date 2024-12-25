@@ -95,9 +95,9 @@ const TodoServices = () => {
           <SkeletonSection />
         ) : (
           <>
-            {todoServices.length > 0 ? (
+            {todoServices?.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {todoServices.map((service) => (
+                {todoServices?.map((service) => (
                   <FeaturedServiceCard
                     key={service._id}
                     serviceObjectId={service._id}
