@@ -128,10 +128,10 @@ const ManagedServices = () => {
         </p>
       </div>
       <div>
-        {managedServices.length > 0 && (
+        {managedServices?.length > 0 && (
           <h1 className="w-fit mx-auto text-lg text-center text-violet-700 border border-violet-700 rounded-md p-2 my-4 md:my-5">
             You&apos;ve added{" "}
-            <span className="font-bold">{managedServices.length}</span> services
+            <span className="font-bold">{managedServices?.length}</span> services
           </h1>
         )}
       </div>
@@ -141,9 +141,9 @@ const ManagedServices = () => {
           <SkeletonSection />
         ) : (
           <>
-            {managedServices.length > 0 ? (
+            {managedServices?.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {managedServices.map((service) => (
+                {managedServices?.map((service) => (
                   <ManagedServiceCard
                     key={service._id}
                     serviceObjectId={service._id}

@@ -123,16 +123,16 @@ const AllServices = () => {
         ) : (
           <>
             {/* Show search results or "No users found" based on results */}
-            {searchFindServices.length > 0 ? (
+            {searchFindServices?.length > 0 ? (
               <>
                 <h1 className="text-sm ">Available Services:</h1>
-                {searchFindServices.map((service, index) => (
+                {searchFindService?.map((service, index) => (
                   <SearchServiceCard key={service._id} service={service} />
                 ))}
               </>
             ) : (
-              query.length !== 0 &&
-              searchFindServices.length === 0 && (
+              query?.length !== 0 &&
+              searchFindServices?.length === 0 && (
                 <p className="text-sm ">No services found!</p>
               )
             )}
@@ -146,7 +146,7 @@ const AllServices = () => {
           <SkeletonSection />
         ) : (
           <>
-            {services.length > 0 ? (
+            {services?.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {services.map((service) => (
                   <FeaturedServiceCard
